@@ -2,7 +2,7 @@
 BIN=pca
 
 # what you want to name your tar/zip file:
-TARNAME=ChereckAss3CS475
+TARNAME=ChereckAss4CS475
 CXX=g++
 
 CXXFLAGS=-O3 -Wall   # optimize
