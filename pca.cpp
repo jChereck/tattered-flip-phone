@@ -36,34 +36,23 @@ int main(int argc, char *argv[]){
 	//produce eigenvectors and values from mCov
 	Matrix mEigVals = mCov.eigenSystem();
 
-	mCov.printSize();
-	mEigVals.print();
 
 	//cut down eighenvectors matrix based on K
 	Matrix mCovCut = mCov.extract(0,0,K,0);		//TODO:Ensure I didn't do this sideways
 	Matrix mEigValsCut = mEigVals.extract(0,0,0,K);
 
-	mCovCut.printSize();
-	mEigValsCut.print();
 
 	//produce mX from Normalized mIn and cut down mCov
 	Matrix mX = mIn.dotT(mCovCut);
-
-	mX.printSize();
-	mIn.printSize();
-
 
 	//Recover the image
 	Matrix mXstar = mX.dot(mCovCut); //X* = X'' * V
 	mXstar.scalarAdd(mInMean); //X*[r]+mean(X) TODO:Change if using Z-score
 
 
-	printf("transposition dealio");
-
 	//Untranspose output before finishing if transposed flag is set
 	if( transposed ){
 		mXstar.transposeSelf();
-		mXstar.printSize();
 	}
 
 	if( mInColor ){
@@ -71,5 +60,15 @@ int main(int argc, char *argv[]){
 	}else{
 		mXstar.writeImagePgm("z.ppm","");
 	}
+
+	//output to assignment specs
+	printf("(size of Image: %d X %d)\n",mIn.numRows(), mIn.numCols());
+	printf("(size of Mean: )\n");
+	printf("(size of EigenVectors: %d X %d)\n",mCov.numRows(),mCov.numCols() );
+	printf("(size of EigenValues: %d X %d)\n", mEigVals.numRows(),mEigVals.numCols());
+	printf("(size of Encoded: %d X %d)\n", mX.numRows(),mX.numCols());
+	printf("(size of Decoded: %d X %d)\n", mXstar.numRows(),mXstar.numCols());
+	printf("Per Pixel Dist^2: %f\n",0.0);
+
 	return 0;
 }
