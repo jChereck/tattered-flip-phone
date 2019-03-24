@@ -1,5 +1,5 @@
 # Example makefile for using the mat libraries
-BIN=nn
+BIN=pca
 
 # what you want to name your tar/zip file:
 TARNAME=ChereckAss3CS475
