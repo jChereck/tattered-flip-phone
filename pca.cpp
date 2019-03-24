@@ -19,7 +19,7 @@ int main(int argc, char *argv[]){
 
 	//If K is negative transpose input and set flag to undo at the end
 	bool transposed = false;
-	if( K > 0 ){
+	if( K < 0 ){
 		mIn.transposeSelf();
 		K = abs(K);
 		transposed = true;
@@ -53,10 +53,23 @@ int main(int argc, char *argv[]){
 	mIn.printSize();
 
 
+	//Recover the image
+	Matrix mXstar = mX.dot(mCovCut); //X* = X'' * V
+	mXstar.scalarAdd(mInMean); //X*[r]+mean(X) TODO:Change if using Z-score
 
 
+	printf("transposition dealio");
 
 	//Untranspose output before finishing if transposed flag is set
+	if( transposed ){
+		mXstar.transposeSelf();
+		mXstar.printSize();
+	}
 
+	if( mInColor ){
+		mXstar.writeImagePgm("z.pgm","");
+	}else{
+		mXstar.writeImagePgm("z.ppm","");
+	}
 	return 0;
 }
