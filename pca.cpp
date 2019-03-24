@@ -33,6 +33,25 @@ int main(int argc, char *argv[]){
 	//compute covariance Matrix
 	Matrix mCov = mIn.cov();
 
+	//produce eigenvectors and values from mCov
+	Matrix mEigVals = mCov.eigenSystem();
+
+	mCov.printSize();
+	mEigVals.print();
+
+	//cut down eighenvectors matrix based on K
+	Matrix mCovCut = mCov.extract(0,0,K,0);		//TODO:Ensure I didn't do this sideways
+	Matrix mEigValsCut = mEigVals.extract(0,0,0,K);
+
+	mCovCut.printSize();
+	mEigValsCut.print();
+
+	//produce mX from Normalized mIn and cut down mCov
+	Matrix mX = mIn.dotT(mCovCut);
+
+	mX.printSize();
+	mIn.printSize();
+
 
 
 
